@@ -1,6 +1,6 @@
 # Google Cloud Build — FairProbe Backend
 # Trigger: push to main branch
-# Deploys to Cloud Run (us-central1)
+# Deploys to Cloud Run (asia-south1)
 #
 # One-time setup:
 #   gcloud secrets create GROQ_API_KEY --data-file=- <<< "your_key"
@@ -10,9 +10,9 @@
 #     --role="roles/secretmanager.secretAccessor"
 
 substitutions:
-  _SERVICE_NAME: fairprobe-backend
-  _REGION: us-central1
-  _IMAGE: gcr.io/$PROJECT_ID/fairprobe-backend
+  _SERVICE_NAME: equidex-backend
+  _REGION: asia-south1
+  _IMAGE: gcr.io/$PROJECT_ID/equidex-backend
 
 steps:
   # Step 1 — Build the Docker image
