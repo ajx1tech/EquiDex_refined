@@ -5,7 +5,7 @@ from datetime import datetime
 
 class FirebaseAdapter:
     def __init__(self, config: dict):
-        self.project_id = config["database"].get("project_id", "YOUR_PROJECT_ID")
+        self.project_id = config["database"].get("project_id", "gen-lang-client-0166569601")
         
         # Initialize Firebase App
         if not firebase_admin._apps:

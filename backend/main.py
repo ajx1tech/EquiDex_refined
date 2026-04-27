@@ -49,9 +49,10 @@ app.add_middleware(
         "https://127.0.0.1:3000",
         "http://localhost:8080",
         "http://127.0.0.1:8080",
+        "https://gen-lang-client-0166569601.web.app",
         # Firebase Hosting — replace YOUR_PROJECT_ID with your actual project
-        "https://YOUR_PROJECT_ID.web.app",
-        "https://YOUR_PROJECT_ID.firebaseapp.com",
+        "https://gen-lang-client-0166569601.web.app",
+        "https://gen-lang-client-0166569601.firebaseapp.com",
     ],
     allow_origin_regex=r"^https://[a-zA-Z0-9-]+\.web\.app$|^https://[a-zA-Z0-9-]+\.firebaseapp\.com$|^https://[a-zA-Z0-9-]+\.vercel\.app$",
     allow_methods=["*"],

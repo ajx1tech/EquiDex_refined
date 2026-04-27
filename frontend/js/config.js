@@ -6,4 +6,4 @@
  *                 OR just edit the line below directly.
  */
 
-window.EQUIDEX_API_BASE = 'http://127.0.0.1:8000'; // Local backend (no TLS for dev)
+window.EQUIDEX_API_BASE = 'https://equidex-backend-1097023479484.asia-south1.run.app'; // Local backend (no TLS for dev)

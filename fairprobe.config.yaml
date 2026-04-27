@@ -34,21 +34,23 @@ audit_dimensions:
 thresholds:
   high_bias: 30
   medium_bias: 15
+  low_bias: 5
 
 # Database configuration
 database:
   type: "sqlite"
-  path: "./fairprobe.db"
+  path: "/tmp/equidex_final.db"
+  project_id: "gen-lang-client-0166569601"
 
 # AI configuration
 ai:
-  provider: "ollama"         # Switched to local Ollama!
-  model: "llama3.1"          # Change this to whatever model you have pulled (e.g., llama3, mistral, qwen)
+  provider: "gemini"         # Switched to gemini-2.5-Flash!
+  model: "gemini-2.5-flash"  # Change this to whatever model you have pulled (e.g., llama3, mistral, qwen)
 
 # Reporting
 reporting:
   domain: "employment"
-  jurisdiction: "US"
+  jurisdiction: "INDIA"
   schedule: "weekly"
 
 # Demo settings
@@ -65,6 +67,8 @@ demo:
   age_bias_threshold: 40
   name_bias_penalty: 30
   age_bias_penalty: 20
+  gender_bias_penalty: 10 
+  ethnicity_bias_penalty: 10
 
 # Company Points System (for uploaded data scoring)
 company_point_system:

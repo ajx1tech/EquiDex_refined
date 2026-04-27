@@ -4,7 +4,12 @@ import os
 
 router = APIRouter(prefix="/config", tags=["Config"])
 
-CONFIG_PATH = "fairprobe.config.yaml"
+# Generate the absolute path dynamically.
+# Since this file is in backend/routers/, we go up two folder levels to hit the root directory.
+routers_dir = os.path.dirname(os.path.abspath(__file__))
+backend_dir = os.path.dirname(routers_dir)
+base_dir = os.path.dirname(backend_dir)
+CONFIG_PATH = os.path.join(base_dir, "fairprobe.config.yaml")
 
 @router.get("/")
 async def get_config(request: Request):
@@ -39,9 +44,9 @@ async def update_config(request: Request):
                 
     merge_dict(config_data, payload)
     
-    # Write back to file
-    with open(CONFIG_PATH, "w") as f:
-        yaml.dump(config_data, f, default_flow_style=False, sort_keys=False)
+    # --- WE DISABLED THE FILE WRITE HERE TO FIX THE GOOGLE CLOUD CRASH ---
+    # with open(CONFIG_PATH, "w") as f:
+    #     yaml.dump(config_data, f, default_flow_style=False, sort_keys=False)
         
     # Update app state config
     # Avoid wiping ai api key which is loaded from env during app start

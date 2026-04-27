@@ -1,7 +1,5 @@
 import sqlite3
-import json
-from datetime import datetime
-
+import re
 
 class SQLiteAdapter:
     def __init__(self, config: dict):
@@ -9,10 +7,6 @@ class SQLiteAdapter:
         self._initialize_db()
 
     def _initialize_db(self):
-        """
-        Creates tables if they don't exist yet.
-        Runs once on startup.
-        """
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
 
@@ -60,13 +54,9 @@ class SQLiteAdapter:
         conn.close()
 
     def save(self, collection: str, record: dict):
-        """
-        Saves a record to the specified table.
-        """
         if collection not in ["applications", "audit_logs", "reports"]:
-            raise ValueError(f"Invalid collection name: {collection}")
+            raise ValueError(f"Invalid collection: {collection}")
 
-        import re
         for key in record.keys():
             if not re.match(r"^[a-zA-Z0-9_]+$", key):
                 raise ValueError(f"Invalid column name: {key}")
@@ -76,24 +66,18 @@ class SQLiteAdapter:
 
         columns = ", ".join(record.keys())
         placeholders = ", ".join(["?" for _ in record])
-        values = list(record.values())
+        values = tuple(record.values())
 
-        cursor.execute(
-            f"INSERT INTO {collection} ({columns}) VALUES ({placeholders})",
-            values
-        )
+        query = f"INSERT INTO {collection} ({columns}) VALUES ({placeholders})"
+        cursor.execute(query, values)
 
         conn.commit()
         conn.close()
 
     def update(self, collection: str, updates: dict, audit_id: str):
-        """
-        Updates fields in a record matching audit_id.
-        """
         if collection not in ["applications", "audit_logs", "reports"]:
-            raise ValueError(f"Invalid collection name: {collection}")
+            raise ValueError(f"Invalid collection: {collection}")
 
-        import re
         for key in updates.keys():
             if not re.match(r"^[a-zA-Z0-9_]+$", key):
                 raise ValueError(f"Invalid column name: {key}")
@@ -102,33 +86,25 @@ class SQLiteAdapter:
         cursor = conn.cursor()
 
         set_clause = ", ".join([f"{key} = ?" for key in updates.keys()])
-        values = list(updates.values()) + [audit_id]
+        values = list(updates.values())
+        values.append(audit_id)
 
-        cursor.execute(
-            f"UPDATE {collection} SET {set_clause} WHERE audit_id = ?",
-            values
-        )
+        query = f"UPDATE {collection} SET {set_clause} WHERE audit_id = ?"
+        cursor.execute(query, tuple(values))
 
         conn.commit()
         conn.close()
 
     def get_all(self, collection: str, audit_id: str = None) -> list:
-        """
-        Fetches all records from a table.
-        Optionally filtered by audit_id.
-        """
         if collection not in ["applications", "audit_logs", "reports"]:
-            raise ValueError(f"Invalid collection name: {collection}")
+            raise ValueError(f"Invalid collection: {collection}")
 
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
 
         if audit_id:
-            cursor.execute(
-                f"SELECT * FROM {collection} WHERE audit_id = ?",
-                [audit_id]
-            )
+            cursor.execute(f"SELECT * FROM {collection} WHERE audit_id = ?", (audit_id,))
         else:
             cursor.execute(f"SELECT * FROM {collection}")
 
@@ -137,16 +113,9 @@ class SQLiteAdapter:
         return rows
 
     def get_latest_audit_id(self) -> str:
-        """
-        Returns the most recent audit_id from audit_logs.
-        """
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-
-        cursor.execute(
-            "SELECT audit_id FROM audit_logs ORDER BY id DESC LIMIT 1"
-        )
+        cursor.execute("SELECT audit_id FROM audit_logs ORDER BY id DESC LIMIT 1")
         row = cursor.fetchone()
         conn.close()
-
         return row[0] if row else None
