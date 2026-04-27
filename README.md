@@ -6,7 +6,14 @@ EquiDex is an open source AI bias auditing platform that wraps any AI decision s
 
 Most auditing tools investigate bias after the fact — once a year, after thousands of people have already been harmed. EquiDex catches it before it scales.
 
-Built for the GDG PromptWars 2026 National Hackathon.
+Built for the GDG PromptWars 2026 National
+
+🚀 Live Deployment & Infrastructure Optimization
+This repository represents a heavily refined, live-deployed version of the base EquiDex platform.
+Cloud Architecture: Successfully deployed the backend via Google Cloud Run and the frontend via Vercel.
+Firebase Integration: Configured and linked Firebase hosting for secure, scalable routing and data management.
+Enhanced Security: Implemented a non-root user environment in Docker and restructured the cloud configuration to dynamically resolve paths, preventing local file-write crashes in the cloud environment.
+Testing: Integrated generate_dataset.py to create 10,000 synthetic candidate profiles with intentional bias thresholds to actively test the AI's auditing capabilities.
 
 ---
 **Status:** Fully functional · Backend + Frontend complete
@@ -40,7 +47,6 @@ Formal compliance report generated
 ```
 
 ---
-
 ## Demo Results
 
 In our hiring AI demo, EquiDex detected:
