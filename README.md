@@ -145,8 +145,8 @@ equidex/
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/Assassin61/Fairprobe.git
-cd Fairprobe
+git clone https://github.com/Assassin61/EquiDex.git
+cd EquiDex
 ```
 
 ### 2. Install dependencies
@@ -225,7 +225,7 @@ domain: "employment"         # employment, banking, healthcare
 
 database:
   type: "sqlite"             # switch to "firebase" for production
-  path: "./fairprobe.db"
+  path: "/temp.equidex-backend"
 
 ai:
   provider: "gemini"
