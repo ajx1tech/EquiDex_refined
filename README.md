@@ -225,7 +225,7 @@ domain: "employment"         # employment, banking, healthcare
 
 database:
   type: "sqlite"             # switch to "firebase" for production
-  path: "/temp.equidex-backend"
+  path: "/tmp.equidex-backend"
 
 ai:
   provider: "gemini"
